@@ -1,0 +1,17 @@
+pipeline:
+  docker:
+    repo: armswarm/node_exporter
+    build_args:
+      - NODE_EXPORTER_VERSION=0.12.0
+      - VCS_REF=${DRONE_COMMIT_SHA}
+      - VCS_URL=${DRONE_REPO_LINK}
+      - BUILD_DATE=${DRONE_BUILD_CREATED}
+      - PROJECT_NAME=${DRONE_REPO}
+    tag: [ "latest", "0.12", "0.12.0" ]
+    when:
+      branch: master
+      event: push
+
+  slack:
+    when:
+      status: [ failure, success ]
